@@ -26,7 +26,7 @@ namespace Khai_demo.ContactForm
                 return CurrentUmbracoPage();
             }
 
-            var content = _contentService.Create(requestModel.Name, new Guid("69874060-97d7-4cc0-b3c6-1820e5a82d2d"), "formItem");
+            var content = _contentService.Create(requestModel.Name, new Guid("7215014a-1a9d-4798-aec8-622fa0500d12"), "formItem");
 
             content.SetValue("userName", requestModel.Name);
             content.SetValue("telegram", requestModel.Telegram);
@@ -34,7 +34,7 @@ namespace Khai_demo.ContactForm
 
             _contentService.SaveAndPublish(content);
 
-            return RedirectToUmbracoPage(new Guid("3ad5ab0b-6190-4188-af17-8c8adec48c8f"));
+            return RedirectToUmbracoPage(new Guid("afbae488-b0c3-48c5-8c2c-cc7126ad9927"));
         }
     }
 }
