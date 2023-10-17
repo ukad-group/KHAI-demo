@@ -1,0 +1,80 @@
+name: Build and deploy production umbraco
+
+on:
+  workflow_dispatch:
+
+env:
+  REGISTRY_URL: khaidemo.azurecr.io
+  SERVICE_NAME: khai-demo-umbraco
+  AZ_RESOURCE_GROUP: khai-demo
+  K8S_CLUSTER: khai-demo
+  K8S_NAMESPACE: default
+  K8S_IMAGEPULLSECRET_NAME: az-acr-pull
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      version-sha: ${{ github.sha }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Login to docker registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY_URL }}
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
+
+      - name: Build and push docker containers
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: 'Khai demo/Dockerfile'
+          push: true
+          tags: |
+            ${{ env.REGISTRY_URL }}/${{ env.SERVICE_NAME }}:${{ github.sha }}
+            ${{ env.REGISTRY_URL }}/${{ env.SERVICE_NAME }}:latest
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v3
+      - uses: azure/setup-kubectl@v3
+        id: install_kubectl
+      - name: Login to azure
+        uses: azure/login@v1
+        with:
+          creds: ${{secrets.AZURE_CREDENTIALS}}
+      - uses: azure/aks-set-context@v3
+        with:
+          resource-group: ${{ env.AZ_RESOURCE_GROUP }}
+          cluster-name: ${{ env.K8S_CLUSTER }}
+
+      - name: Set imagePullSecret
+        uses: azure/k8s-create-secret@v4
+        with:
+          namespace: ${{ env.K8S_NAMESPACE }}
+          secret-name: ${{ env.K8S_IMAGEPULLSECRET_NAME }}
+          container-registry-url: ${{ env.REGISTRY_URL }}
+          container-registry-username: ${{ secrets.ACR_USERNAME }}
+          container-registry-password: ${{ secrets.ACR_PASSWORD }}
+        id: create-secret
+
+      - name: Deploy
+        uses: Azure/k8s-deploy@v4
+        with:
+          name: ${{ env.K8S_CLUSTER }}
+          resource-group: ${{ env.AZ_RESOURCE_GROUP }}
+          action: deploy
+          strategy: basic
+          manifests: |
+            deployment/production/k8s/khai-demo.yml
+            deployment/production/k8s/ingress.yml
+          namespace: ${{ env.K8S_NAMESPACE }}
+          images: |
+            ${{ env.REGISTRY_URL }}/${{ env.SERVICE_NAME }}:${{ needs.build.outputs.version-sha }}
+          imagepullsecrets: |
+            ${{ env.K8S_IMAGEPULLSECRET_NAME }}
+            

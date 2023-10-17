@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: khai-demo-umbraco
+spec:
+  selector:
+    app: khai-demo-umbraco
+  ports:
+    - port: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: khai-demo-umbraco
+  labels:
+    app: khai-demo-umbraco
+spec:
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 50%
+  replicas: 1
+  selector:
+    matchLabels:
+      app: khai-demo-umbraco
+  template:
+    metadata:
+      labels:
+        app: khai-demo-umbraco
+    spec:
+      containers:
+        - name: khai-demo-umbraco
+          image: khaidemo.azurecr.io/khai-demo-umbraco:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "Production"
+            - name: ConnectionStrings__umbracoDbDSN
+              valueFrom:
+                secretKeyRef:
+                  name: khai-demo-umbraco
+                  key: CONNECTION_STRING
