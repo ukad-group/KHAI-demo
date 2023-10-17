@@ -1,0 +1,350 @@
+﻿@using Umbraco.Cms.Core.Services;
+@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@inject IMediaService _mediaService;
+@{
+    Layout = null;
+    var ukadLogoUrl = GetMediaPath("Ukad Logo");
+    var khaiLogoUrl = GetMediaPath("Khai Logo");
+}
+
+@functions {
+    string? GetMediaPath(string imageName)
+    {
+        return Umbraco.MediaAtRoot().FirstOrDefault(s => s.Name == imageName)?.MediaUrl();
+    }
+}
+<html>
+<head>
+    <title>Two men, one code - demo site</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div id="wrapper">
+        <main>
+            @RenderBody()
+        </main>
+
+        <footer>
+            <div class="footer-block__items">
+                <div class="user-profile">
+                    <div class="user-profile__avatar">
+                        <img src="https://avatars.slack-edge.com/2022-02-11/3093978316019_5dcc0ecbb66dd01d73a7_192.jpg">
+                    </div>
+                    <div style="color:white;">
+                        <p class="user-profile__full-name">
+                            Dmytro Minaiev
+                        </p>
+                        <a href="https://www.linkedin.com/in/dmytro-minaiev/" target="_blank" rel="noopener noreferrer">
+                            <i class="fab fa-linkedin fa-2x" style="color: white;"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="user-profile">
+                    <div class="user-profile__avatar">
+                        <img src="https://avatars.slack-edge.com/2023-05-18/5287427040020_96df93a67454c1d48254_192.jpg">
+                    </div>
+                    <div style="color:white;">
+                        <p class="user-profile__full-name">Bogdan Kosarevskyi</p>
+                        <a href="https://www.linkedin.com/in/bogdan-kosarevskyi/" target="_blank" rel="noopener noreferrer">
+                            <i class="fab fa-linkedin fa-2x" style="color: white;"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="logo-items">
+                <div class="ukad-logo">
+                    <a href="https://ukad-group.com/" target="_blank">
+                        Ukad
+                    </a>
+                </div>
+
+                <div class="khai-logo">
+                    <a href="https://khai.edu/ua/" target="_blank">
+                        Khai
+                    </a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <style>
+        .khai-logo {
+            float: left;
+            width: 92px;
+            height: 49px;
+            text-indent: -9999px;
+            background: url(@khaiLogoUrl);
+        }
+
+            .khai-logo a {
+                display: block;
+                height: 100%;
+            }
+
+        .ukad-logo {
+            width: 148px;
+            height: 41px;
+            text-indent: -9999px;
+            background: url(@ukadLogoUrl);
+            background-size: 148px 41px;
+        }
+
+            .ukad-logo a {
+                display: block;
+                height: 100%;
+            }
+
+        header {
+            position: fixed;
+            top: 0;
+            right: 0;
+            left: 0;
+            z-index: 100;
+            color: #fff;
+            background: rgba(0, 0, 0, 0.9);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            margin-top: 0;
+            height: 90px;
+            transition: transform 0.3s linear;
+            -webkit-backface-visibility: hidden;
+        }
+
+        #wrapper {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+
+        main {
+            margin-bottom: 100px;
+        }
+
+        footer {
+            box-shadow: 2px -1px 30px rgba(0, 0, 0, 0.15);
+            left: -10px;
+            background-color: #5a637c;
+            min-height: 144px;
+            width: 101%;
+            position: fixed;
+            bottom: -16px;
+            display: flex;
+        }
+
+        .logo-items {
+            font: bold 36px/46px "league_spartan", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            color: #e6e9ee;
+            font-size: 50px;
+            max-width: 40%;
+            display: flex;
+            flex-direction: row;
+            gap: 2rem;
+            overflow: hidden;
+            padding: 0 3rem 1rem 0;
+            align-items: center;
+            margin-left: auto;
+        }
+
+        a {
+            text-decoration: auto;
+            color: #e6e9ee;
+        }
+
+        .footer-block__items {
+            max-width: 40%;
+            display: flex;
+            flex-direction: row;
+            gap: 2rem;
+            overflow: hidden;
+            padding: 0 3rem 1rem 3rem;
+            align-items: center;
+        }
+
+        .user-profile {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .user-profile__avatar {
+            height: 4.5rem;
+            width: 4.5rem;
+            flex-shrink: 0;
+            overflow: hidden;
+            border-radius: 9999px;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .header-content h1 {
+            color: white;
+            font-size: 40px;
+            padding-left: 15px;
+        }
+
+        .home-block {
+            color: #484a4b;
+            background: #e6e9ee;
+            min-height: 20vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 0;
+        }
+
+            .home-block .umbraco-forms-submitmessage {
+                min-height: 40vh;
+                font-size: 40px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+
+        .home-block__description {
+            color: #7a7a7a;
+            font: normal 24px/36px "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            max-width: 1400px;
+            margin: 0 auto 36px;
+            text-align: center;
+        }
+
+        .user-profile__full-name {
+            font-size: 18px;
+        }
+
+        .row-fluid {
+            padding: 0 0 0 0;
+        }
+
+        body {
+            background: #e6e9ee;
+            padding: 0;
+            margin: 0;
+        }
+
+        .fa-2x {
+            font-size: 1.8em;
+        }
+
+        .contact-form {
+            z-index: 1;
+        }
+
+        .btn.btn_contact {
+            color: #fff;
+            background: #ff3163;
+            padding: 21px 46px;
+            border: 0;
+            border-color: #ff3163;
+            margin-top: 22px;
+            margin-bottom: 0;
+            outline: none;
+            display: flex;
+        }
+
+        .btn {
+            color: #fff;
+            background: #ff3163;
+            padding: 21px 46px;
+            border: 0;
+            border-color: #ff3163;
+            margin: 22px auto 0;
+            outline: none;
+            display: inline-block;
+            font-weight: bold;
+            font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            font-size: 18px;
+            padding: 18px 58px;
+            border-radius: 32px;
+            transition: background linear 0.2s, color linear 0.2s, border-color linear 0.2s;
+            box-shadow: 0px 5px 30px rgba(0, 0, 0, 0.15);
+            height: auto;
+            width: auto;
+        }
+
+        .contact-form__input {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            height: 48px;
+            font-size: 16px;
+            color: #666;
+            background: #fff;
+            padding: 10px 140px 10px 17px;
+            border: 1px solid #fff;
+            border-radius: 8px;
+            margin: 0 0 10px;
+            outline: none;
+            transition: border-color linear 0.3s;
+            font: 16px/24px "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+        }
+
+        .contact-form__input-text {
+            position: absolute;
+            top: 12px;
+            right: 80%;
+            z-index: 0;
+            font-size: 16px;
+            color: #b5b5b5;
+            opacity: 0;
+            margin: 0 17px 0 0;
+            pointer-events: none;
+            transition: right ease-out 0.5s, opacity linear 0.2s;
+        }
+
+        .contact-form__row {
+            width: 560px;
+            margin: 0 0 25px;
+            display: flex;
+            flex-direction: column;
+        }
+
+            .contact-form__row .text-danger {
+                color: #da1847;
+                font: 16px/24px "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            }
+
+        .contact-form__textarea {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            height: 160px;
+            font-size: 16px;
+            color: #666;
+            background: #fff;
+            padding: 10px 46px 10px 17px;
+            border: 1px solid #fff;
+            border-radius: 8px;
+            margin: 0 0 10px;
+            outline: none;
+            transition: border-color linear 0.3s;
+            font: 16px/24px "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+        }
+
+        .thank-you-block {
+            padding: 23rem;
+        }
+
+        .thank-you-block__title {
+            color: #4c4d4e;
+            font: bold 36px/46px "league_spartan", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            margin: 0 0 38px;
+            text-align: center;
+        }
+
+        .thank-you-block__subtitle {
+            color: #7a7a7a;
+            font: normal 24px/36px "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            max-width: 760px;
+            margin: 0 auto 32px;
+            text-align: center;
+        }
+    </style>
+</body>
+</html>

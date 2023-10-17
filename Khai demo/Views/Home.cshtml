@@ -1,0 +1,14 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@using Khai_demo.ContactForm;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.Home>
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@{
+	Layout = "_Layout.cshtml";
+}
+
+<div clas="home-block">
+    <h1>@Model.Title</h1>
+    <p class="home-block__description">@Model.Description</p>
+
+    @await Html.PartialAsync("~/Views/Partials/ContactForm.cshtml", new ContactFormRequestModel())
+</div>

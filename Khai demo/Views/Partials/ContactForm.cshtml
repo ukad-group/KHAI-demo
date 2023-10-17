@@ -1,0 +1,26 @@
+﻿@using Khai_demo.ContactForm
+@model Khai_demo.ContactForm.ContactFormRequestModel
+
+<div class="contact-form">
+    @using (Html.BeginUmbracoForm<ContactFormController>(nameof(ContactFormController.Submit), FormMethod.Post))
+    {
+        <div class="contact-form__row">
+            <label class="contact-form__input-text" asp-for="Name"></label>
+            <input class="contact-form__input" asp-for="Name" placeholder="Your name" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="contact-form__row">
+            <label class="contact-form__input-text" asp-for="Telegram"></label>
+            <input class="contact-form__input" asp-for="Telegram" placeholder="Telegram" />
+            <span asp-validation-for="Telegram" class="text-danger"></span>
+        </div>
+        <div class="contact-form__row">
+            <label class="contact-form__input-text" asp-for="Question"></label>
+            <textarea class="contact-form__textarea" asp-for="Question" placeholder="Question"></textarea>
+            <span asp-validation-for="Question" class="text-danger"></span>
+        </div>
+        <div class="contact-form__row">
+            <input class="btn btn_contact" type="submit" name="Submit" value="Submit" />
+        </div>
+    }
+</div>
