@@ -11,7 +11,7 @@ spec:
   tls:
     - hosts:
         - khai-demo.ukad.dev
-      secretName: {{ secret_name }}
+      secretName: khai-demo-umbraco-tls
   rules:
     - host: khai-demo.ukad.dev
       http:
